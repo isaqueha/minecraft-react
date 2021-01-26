@@ -6,8 +6,10 @@ import { Physics } from 'use-cannon';
 import { Ground } from './components/Ground';
 import { Player } from './components/Player';
 import { Cube } from './components/Cube';
+import { useStore } from './hooks/useStore';
 
 function App() {
+  const cubes = useStore((state) => state.cubes);
   return (
     <Canvas shadowMap sRGB>
       <Sky sunPosition={[100, 20, 100]} />
@@ -16,7 +18,9 @@ function App() {
       <Physics gravity={[0, -30, 0]}>
         <Ground position={[0, 0.5, 0]} />
         <Player position={[0, 3, 10]} />
-        <Cube position={[0, 1, 0]} type="wood" />
+        {cubes.map((cube) => (
+          <Cube position={cube.pos} texture={cube.texture} />
+        ))}
       </Physics>
     </Canvas>
   );
